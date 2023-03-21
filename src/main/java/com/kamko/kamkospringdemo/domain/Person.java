@@ -4,13 +4,15 @@ public class Person {
     private String name;
     private String surname;
     private String passport;
+    private int professionNumber;
 
     public Person(String name,
                   String surname,
-                  String passport) {
+                  String passport, int professionNumber) {
         this.name = name;
         this.surname = surname;
         this.passport = passport;
+        this.professionNumber = professionNumber;
     }
 
     public String getName() {
@@ -35,5 +37,13 @@ public class Person {
 
     public void setPassport(String passport) {
         this.passport = passport;
+    }
+
+    public int getProfessionNumber() {
+        return professionNumber;
+    }
+
+    public void setProfessionNumber(int professionNumber) {
+        this.professionNumber = professionNumber;
     }
 }

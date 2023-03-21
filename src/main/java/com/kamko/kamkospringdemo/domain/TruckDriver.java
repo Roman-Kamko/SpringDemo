@@ -4,8 +4,9 @@ public class TruckDriver extends Driver {
     public TruckDriver(String name,
                        String surname,
                        String passport,
-                       String driverLicenseNumber) {
-        super(name, surname, passport, driverLicenseNumber);
+                       String driverLicenseNumber,
+                       int professionNumber) {
+        super(name, surname, passport, driverLicenseNumber, professionNumber);
     }
 
     public void setDriverLicenseNumber(String driverLicenseNumber) {

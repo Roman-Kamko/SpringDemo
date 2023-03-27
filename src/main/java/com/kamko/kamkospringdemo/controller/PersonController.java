@@ -17,16 +17,6 @@ public class PersonController {
 
     @GetMapping(path = "/person")
     public String getPersonInfo(@RequestParam("number") Integer number) {
-        try {
-            final String person = personService.getPerson(number);
-            return person;
-        } catch (BadPersonNumberException exception) {
-            return "Попробуйте другой номер";
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return "Попробуйте в другой раз";
-        } finally {
-            System.out.println("Робато метода getPersonInfo закончена");
-        }
+        return personService.getPerson(number);
     }
 }

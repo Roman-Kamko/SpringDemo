@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-    List<Person> people = List.of
+    List<Person> people = new ArrayList<>(List.of
             (
                     new Person(
                             "Жан",
@@ -39,8 +39,9 @@ public class PersonServiceImpl implements PersonService {
                             "Патинсон",
                             "892374",
                             "2456",
-                            4)
-            );
+                            3)
+            ));
+
     List<String> professions = List.of
             (
                     "безработный",
@@ -60,7 +61,12 @@ public class PersonServiceImpl implements PersonService {
                 person.getName() + " " +
                         person.getSurname() + " " +
                         person.getPassport() + " " +
-                        professions.get(number);
+                        professions.get(person.getProfessionNumber());
         return personDescription;
+    }
+
+    @Override
+    public void addPerson(Person person) {
+        people.add(person);
     }
 }

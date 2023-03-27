@@ -1,5 +1,6 @@
 package com.kamko.kamkospringdemo.controller;
 
+import com.kamko.kamkospringdemo.domain.Person;
 import com.kamko.kamkospringdemo.exceptions.BadPersonNumberException;
 import com.kamko.kamkospringdemo.service.PersonService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +19,16 @@ public class PersonController {
     @GetMapping(path = "/person")
     public String getPersonInfo(@RequestParam("number") Integer number) {
         return personService.getPerson(number);
+    }
+
+    @GetMapping(path = "/person/add")
+    public String addPerson(@RequestParam("name") String name,
+                            @RequestParam("surname") String surname,
+                            @RequestParam("passport") String passport,
+                            @RequestParam("profession") Integer profession
+    ) {
+        Person person = new Person(name, surname, passport, profession);
+        personService.addPerson(person);
+        return "Person added";
     }
 }

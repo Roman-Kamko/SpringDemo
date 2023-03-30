@@ -6,4 +6,6 @@ public interface PersonService {
     String getPerson(Integer number);
 
     void addPerson(Person person);
+
+    String getPersonByPassport(String passport);
 }

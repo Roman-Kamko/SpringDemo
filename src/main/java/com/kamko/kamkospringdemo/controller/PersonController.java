@@ -17,15 +17,19 @@ public class PersonController {
     }
 
     @GetMapping(path = "/person")
-    public String getPersonInfo(@RequestParam("number") Integer number) {
+    public String getPersonInfo(@RequestParam Integer number) {
         return personService.getPerson(number);
+    }
+    @GetMapping(path = "/person/by-passport")
+    public String getPersonInfo(@RequestParam String passport) {
+        return personService.getPersonByPassport(passport);
     }
 
     @GetMapping(path = "/person/add")
-    public String addPerson(@RequestParam("name") String name,
-                            @RequestParam("surname") String surname,
-                            @RequestParam("passport") String passport,
-                            @RequestParam("profession") Integer profession
+    public String addPerson(@RequestParam String name,
+                            @RequestParam String surname,
+                            @RequestParam String passport,
+                            @RequestParam Integer profession
     ) {
         Person person = new Person(name, surname, passport, profession);
         personService.addPerson(person);

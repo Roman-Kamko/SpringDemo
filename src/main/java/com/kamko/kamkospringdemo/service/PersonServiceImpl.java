@@ -69,4 +69,19 @@ public class PersonServiceImpl implements PersonService {
     public void addPerson(Person person) {
         people.add(person);
     }
+
+    @Override
+    public String getPersonByPassport(String passport) {
+        for (Person person : people) {
+            if (person.getPassport().equals(passport)) {
+                final String personDescription =
+                        person.getName() + " " +
+                                person.getSurname() + " " +
+                                person.getPassport() + " " +
+                                professions.get(person.getProfessionNumber());
+                return personDescription;
+            }
+        }
+        throw new RuntimeException("Человек с данным номером паспорта не найден");
+    }
 }

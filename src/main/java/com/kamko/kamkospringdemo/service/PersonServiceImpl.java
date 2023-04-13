@@ -71,13 +71,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     public List<Person> getProfessionNumbers(List<Integer> professionsNumbers) {
-        List<Person> result = new ArrayList<>();
-        for (Person person : personMap.values()) {
-            if (person.getProfessionNumbers().containsAll(professionsNumbers)) {
-                result.add(person);
-            }
-        }
-        return result;
+        return personMap.values().stream()
+                .filter(person -> person.getProfessionNumbers().containsAll(professionsNumbers))
+                .toList();
     }
 
     @Override

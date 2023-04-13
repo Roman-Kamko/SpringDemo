@@ -1,0 +1,20 @@
+GET http://localhost:8080/person/by-passport?passport=12345
+###
+
+GET http://localhost:8080/person/add?name=David&surname=Duhonyi&passport=65498&profession=3
+###
+
+GET http://localhost:8080/person/by-passport?passport=65498
+###
+
+GET http://localhost:8080/person/profession/add?passport=12345&profession=1
+###
+
+GET http://localhost:8080/person/by-passport?passport=12345
+###
+
+GET http://localhost:8080/persons/by-profession?profession=0
+###
+
+GET http://localhost:8080/persons/by-profession?profession=3
+###

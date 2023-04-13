@@ -3,37 +3,41 @@ package com.kamko.kamkospringdemo.service;
 import com.kamko.kamkospringdemo.domain.Driver;
 import com.kamko.kamkospringdemo.domain.Person;
 import com.kamko.kamkospringdemo.domain.TruckDriver;
-import com.kamko.kamkospringdemo.exceptions.BadPersonNumberException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-    List<Person> people = new ArrayList<>(List.of
+    Map<String, Person> personMap = new HashMap<>(Map.of
             (
+                    "12345",
                     new Person(
                             "Жан",
                             "Рено",
                             "12345",
                             3),
+                    "32124",
                     new Person(
                             "Люк",
                             "Бессон",
                             "32124",
                             2),
+                    "71231",
                     new Person(
                             "Жерар",
                             "Депардье",
                             "71231",
                             0),
+                    "891723",
                     new Driver(
                             "Джейсон",
                             "Стетхэм",
                             "891723",
                             "4376",
                             1),
+                    "892374",
                     new TruckDriver(
                             "Роберт",
                             "Патинсон",
@@ -47,41 +51,68 @@ public class PersonServiceImpl implements PersonService {
                     "безработный",
                     "водитель",
                     "плотник",
-                    "столяр"
+                    "столяр",
+                    "актер"
             );
 
+    Map<String, Integer> professionsCodes = Map.of(
+            "безработный", 0,
+            "водитель", 1,
+            "плотник", 2,
+            "столяр", 3,
+            "актер", 4
+    );
+
     @Override
-    public String getPerson(Integer number) {
-        final Person person;
-        if (number >= people.size()) {
-            throw new BadPersonNumberException("ошибка в том, что номер человека заведомо больше размера массива");
+    public List<String> getPersonsByProfession(Integer professionNumber) {
+        return personMap.values().stream()
+                .map(Person::getPassport)
+                .collect(Collectors.toList());
+    }
+
+    public List<Person> getProfessionNumbers(List<Integer> professionsNumbers) {
+        List<Person> result = new ArrayList<>();
+        for (Person person : personMap.values()) {
+            if (person.getProfessionNumbers().containsAll(professionsNumbers)) {
+                result.add(person);
+            }
         }
-        person = people.get(number);
-        final String personDescription =
-                person.getName() + " " +
-                        person.getSurname() + " " +
-                        person.getPassport() + " " +
-                        professions.get(person.getProfessionNumber());
-        return personDescription;
+        return result;
     }
 
     @Override
     public void addPerson(Person person) {
-        people.add(person);
+        personMap.put(person.getPassport(), person);
     }
 
     @Override
     public String getPersonByPassport(String passport) {
-        for (Person person : people) {
-            if (person.getPassport().equals(passport)) {
-                final String personDescription =
-                        person.getName() + " " +
-                                person.getSurname() + " " +
-                                person.getPassport() + " " +
-                                professions.get(person.getProfessionNumber());
-                return personDescription;
-            }
+        Person person = personMap.get(passport);
+        if (person == null) {
+            throw new RuntimeException("Человек с данным номером паспорта не найден");
         }
-        throw new RuntimeException("Человек с данным номером паспорта не найден");
+        final String personDescription =
+                person.getName() + " " +
+                        person.getSurname() + " " +
+                        person.getPassport() + " " +
+                        getProfessionNames(person.getProfessionNumbers());
+        return personDescription;
+    }
+
+    private String getProfessionNames(Set<Integer> professionNumbers) {
+        StringBuilder result = new StringBuilder();
+        for (Integer professionNumber : professionNumbers) {
+            result.append(" ").append(professions.get(professionNumber));
+        }
+        return result.toString();
+    }
+
+    @Override
+    public void addProfession(String passport, Integer profession) {
+        Person person = personMap.get(passport);
+        if (person == null) {
+            throw new RuntimeException("Человек с данным номером паспорта не найден");
+        }
+        person.getProfessionNumbers().add(profession);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class PersonController {
 
@@ -16,10 +18,6 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @GetMapping(path = "/person")
-    public String getPersonInfo(@RequestParam Integer number) {
-        return personService.getPerson(number);
-    }
     @GetMapping(path = "/person/by-passport")
     public String getPersonInfo(@RequestParam String passport) {
         return personService.getPersonByPassport(passport);
@@ -35,4 +33,17 @@ public class PersonController {
         personService.addPerson(person);
         return "Person added";
     }
+
+    @GetMapping(path = "person/profession/add")
+    public String addProfession(@RequestParam String passport,
+                                @RequestParam Integer profession) {
+        personService.addProfession(passport, profession);
+        return "Профессия успешно добавлена";
+    }
+
+    @GetMapping("/persons/by-profession")
+    public String getByProfession(@RequestParam int profession ) {
+        return personService.getPersonsByProfession(profession).toString();
+    }
+
 }
